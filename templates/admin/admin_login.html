@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Admin Login {% endblock %}
+{% block content %}
+{% if msg|length > 0 %}
+<h4 class="text-danger">{{ msg }}</h4>
+{% endif %}
+<form action='/admin_login' method='POST'>
+  <div class="mb-3">
+    <label for="admin_email" class="form-label">Email </label>
+    <input type="email" class="form-control" id="admin_email" name='admin_email'>
+  </div>
+  <div class="mb-3">
+    <label for="admin_password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="admin_password" name='admin_password'>
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

@@ -1,0 +1,94 @@
+.parent {
+  display: grid;
+  height: 100vh;
+  /* background-color: lightgray; */
+  grid-template-areas:
+    "head head"
+    "aside main"
+    "foot foot";
+  /* grid-gap: .6rem; */
+  /* text-align: center; */
+  grid-template-columns: 0.2fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  overflow:auto;
+}
+
+.header {
+  grid-area: head;
+  color: white;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  /* border-radius: 10px; */
+  z-index:99;
+}
+
+.aside {
+  grid-area: aside;
+  background-color: #272626;
+  color: white;
+  /* border-radius: 20px;
+  padding: 5px;
+  margin: 5px; */
+}
+
+.main {
+  grid-area: main;
+  background-color: white;
+  /* border-radius: 20px;
+  padding: 5px;*/
+  margin: 3px; 
+  overflow:auto;
+
+}
+
+.footer {
+  grid-area: foot;
+  background-color: black;
+  color: white;
+  /* margin: 5px; */
+}
+
+@media (max-width: 650px) {
+  .parent {
+    grid-template-areas:
+      "head"
+      "aside"
+      "main"
+      "foot";
+    grid-template-columns: 1fr;
+    /* Adjust columns for smaller screens */
+    grid-template-rows: 0.05fr .15fr 1fr 0.15fr;
+    /* Adjust rows accordingly */
+  }
+
+  .header {
+    grid-area: head;
+  }
+
+  .aside {
+    grid-area: aside;
+    margin: 0px;
+  }
+  .aside.nav-link {
+    text-decoration: none; /* Remove underline */
+    color: white; /* Change link color to Bootstrap's primary color */
+  }
+
+  .nav-link:hover {
+    color: #0056b3; /* Change link color on hover */
+  }
+
+
+  .main {
+    grid-area: main;
+    margin: 2px;
+  }
+
+  .footer {
+    grid-area: foot;
+    margin: 2px;
+  }
+
+
+}

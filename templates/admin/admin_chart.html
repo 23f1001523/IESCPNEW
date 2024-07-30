@@ -1,0 +1,139 @@
+{% extends '/admin/admin_dashboard.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class='text-center'>
+   <a type="button" href='/admin/dashboard' class="btn btn-danger text-white mt-3">Back</a>
+    </div>
+  <div class="col-md-6 mt-2">
+    <div class="card">
+       <div class="card-header">
+          <h3>Users Chart</h3>
+       </div>
+       <div class="card-body">
+          <canvas height="50px" width="100px" id="data_chart"></canvas>
+       </div>
+     </div>
+   
+    
+  </div>
+  <div class="col-md-6 mt-2" >
+    <div class="card">
+       <div class="card-header">
+          <h3>Sponsors Budget Chart</h3>
+       </div>
+       <div class="card-body">
+         <canvas height="50px" width="100px" id="myChart"></canvas>
+       </div>
+     </div>
+
+    
+    
+  </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  window.onload=fetchChart();
+  function fetchChart(){
+    fetch('/admin/fetchChart')
+    .then((response)=>{
+      return response.json();
+    })
+    .then((mydata)=>{
+      console.log(mydata);
+
+      const ctx = document.getElementById('data_chart');
+          new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels:mydata.map(item=>item.users),
+            datasets: [{
+              label: 'no of Users',
+              data: mydata.map(item=>item.value),
+              borderWidth: 1,
+              backgroundColor:['rgba(255, 99, 132, 0.7)',
+                              'rgba(75, 192, 192, 0.7)',
+                              'rgba(255, 205, 86, 0.7)',
+                              'rgba(54, 162, 235, 0.7)',
+                              'rgba(153, 102, 255, 0.7)',]
+            }],
+            borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 205, 86, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(153, 102, 255, 1)',]
+          },
+          options: {
+            
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+    })
+  }
+  
+</script>
+<script>
+  window.onload=drawChart();
+  function drawChart(){
+    fetch('/admin/stats')
+    .then((response)=>{
+      return response.json();
+    })
+    .then((mydata)=>{
+      console.log(mydata);
+
+      const ctx = document.getElementById('myChart');
+          new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels:mydata.map(item=>item.users),
+            datasets: [{
+              label: 'Top Sponsors',
+              data: mydata.map(item=>item.value),
+              borderWidth: 1,
+              backgroundColor:[
+                'rgba(255, 205, 86, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                              ],
+              borderColor: ['rgba(255, 205, 86, 1)',
+                             'rgba(54, 162, 235, 1)',
+                             'rgba(153, 102, 255, 1)',
+                            'rgba(255, 99, 132, 1)',
+                           'rgba(75, 192, 192, 1)',
+                           ]
+            }]
+          },
+          options: {
+             
+            radius: '85%',
+            aspectRatio: 1.7,
+            responsive: true, 
+           
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+    })
+  }
+  
+</script>
+
+{% endblock %}

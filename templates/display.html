@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %} Display {% endblock %}
+
+{% block content %} 
+
+{% if admins %}
+ <h1>Admin Info</h1>
+ <table class='table'>
+   <tr>
+     <th>Name</th>
+     <th>Email</th>
+     <th>Password</th>
+   </tr>
+   {% for admin in admins %}
+   <tr>
+      <td>{{ admin.admin_name }}</td>
+      <td>{{ admin.admin_email }}</td>
+      <td>{{ admin.admin_password }}</td>
+   </tr>
+   {% endfor %}
+ </table>
+ {% endif %}
+
+{% if users %}
+<h1>Users</h1>
+<table class='table'>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+  </tr>
+  {% for user in users %}
+  <tr><td>{{ user.name }}</td>
+  <td>{{ user.email }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+ {% if sponsors %}
+ <h1>Sponsors</h1>
+ <table class='table'>
+   <tr>
+     <th>Company Name</th>
+     <th>Company Email</th>
+     <th>Budget</th>
+     <th>Industry</th>
+     <th>Password</th>
+   </tr>
+   {% for sponsor in sponsors %}
+   <tr><td>{{ sponsor.company_name }}</td>
+   <td>{{ sponsor.company_email }}</td>
+     <td>{{ sponsor.budget }}</td>
+     <td>{{ sponsor.industry }}</td>
+     <td>{{ sponsor.company_password }}</td>
+   </tr>
+   {% endfor %}
+ </table>
+ {% endif %}
+{% if influencers %}
+ <h1>Influencers</h1>
+ <table class='table'>
+   <tr>
+     <th>Name</th>
+     <th>Email</th>
+     <th>Category</th>
+     <th>Niche</th>
+     <th>Reach</th>
+   </tr>
+   {% for influencer in influencers %}
+   <tr><td>{{ influencer.name }}</td>
+   <td>{{ influencer.email }}</td>
+     <td>{{ influencer.category }}</td>
+     <td>{{ influencer.niche }}</td>
+     <td>{{ influencer.reach }}</td>
+   </tr>
+   {% endfor %}
+ </table>
+ {% endif %}
+
+
+ {% endblock %}

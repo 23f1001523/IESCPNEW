@@ -1,0 +1,185 @@
+{% extends '/sponsor/sponsor_dashboard.html' %}
+{% block title %}Stats{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center ">
+  <div class='text-center mb-3'>
+   <a type="button" href='/sponsor/dashboard' class="btn btn-danger text-white mt-3">Back</a>
+    </div>
+   <div class="col-md-6" >
+     
+     <div class="card">
+        <div class="card-header">
+           <h3>Campaign Progress</h3>
+        </div>
+        <div class="card-body">
+         <canvas id="myChart" class='mt-5 justify-content-center'></canvas>        
+        </div>
+      </div>
+
+   </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+         <h3>Influencer Niche Chart</h3>
+      </div
+      <div class="card-body">
+         <canvas id="influencerNiche" class='mt-5 justify-content-center' height='100px'>     
+      </div>
+    </div>
+    </canvas>
+   </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script>
+  // CAMPAIGN PROGRESS BAR
+  window.onload=Progress();
+  function Progress(){
+    fetch('/sponsor/campaign/progress/chart')
+    .then((response)=>{
+      return response.json();
+    })
+    .then((data)=>{
+
+      const ctx = document.getElementById('myChart');
+      const labels=data.map(item=>item.name)
+      const values=data.map(item=>item.progress)
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            barpercentage:0.5,
+            barThickness: 30,
+            label: '# of Campaign Progress',
+            data: values,
+            borderWidth: 1,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(255, 205, 86, 0.7)',
+                'rgba(54, 162, 235, 0.7)',
+                'rgba(153, 102, 255, 0.7)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 205, 86, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(153, 102, 255, 1)',
+            ]
+          }],
+        },
+        options: {
+          plugins: {
+              datalabels: {
+                  anchor: 'end',
+                  align: 'top',
+                  formatter: function(values) {
+                      return values + '%'; // Format the label as percentage
+                  }
+              }
+          },
+          scales: {
+            x: {
+              max:100,
+              beginAtZero: true,
+              ticks: {
+                  callback: function(values) {
+                      return values + '%'; // Append '%' to the tick values
+                  }
+              }
+            }
+          },
+          indexAxis: 'y'
+        }
+      });
+    })
+  }
+
+
+  // INFLUENCER NICHE PIE CHART
+  window.onload=influencerPieChart();
+  function influencerPieChart(){
+    fetch('/sponsor/influencer/niche/chart')
+    .then((response)=>{
+      return response.json();
+    })
+    .then((data)=>{
+
+      const ctx = document.getElementById('influencerNiche');
+      const labels=data.map(item=>item.name)
+      const values=data.map(item=>item.count)
+
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            barpercentage:0.5,
+            barThickness: 30,
+            label: '# of Influencer Niche',
+            data: values,
+            borderWidth: 1,
+            backgroundColor: [
+              'rgba(255, 205, 86, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(153, 102, 255, 0.7)',
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(75, 192, 192, 0.7)',
+                
+            ],
+            borderColor: [
+              'rgba(255, 205, 86, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(153, 102, 255, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(75, 192, 192, 1)',
+               
+            ]
+           
+          }],
+        },
+        options: {
+          radius: '85%',
+          aspectRatio: 1.7,
+          responsive: true, 
+          plugins: {
+              datalabels: {
+                  anchor: 'end',
+                  align: 'top',
+                  formatter: function(values) {
+                      return values + '%'; // Format the label as percentage
+                  }
+              }
+          },
+          scales: {
+            x: {
+              max:100,
+              beginAtZero: true,
+              ticks: {
+                  callback: function(values) {
+                      return values + '%'; // Append '%' to the tick values
+                  }
+              }
+            }
+          },
+          indexAxis: 'y'
+        }
+      });
+    })
+  }
+</script>
+
+
+<div class='text-center m-3'>
+<a type="button" href='/sponsor/dashboard' class="btn btn-danger text-white">Back</a>
+  </div>
+
+{% endblock %}
+   
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

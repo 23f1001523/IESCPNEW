@@ -1,0 +1,83 @@
+{% extends '/influencer/influencer_dashboard.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<div class="row justify-content-center mt-3">
+  <div class="col-md-9 bg-light border border-dark rounded p-5">
+      <ul class="nav nav-pills nav-fill" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active " data-bs-toggle="pill" href="#changepassword">Change Password</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="pill" href="#updateprofile">Update Profile</a>
+        </li>
+      </ul>
+
+    <div class="tab-content">
+      <!-- Password Change Tab -->
+      <div id="changepassword" class="container tab-pane active"><br>
+              <h3 class='text-center'>Change Password</h3>
+        <form action="/influencer/profile" method="POST">
+          <div class="form-floating mb-3 mt-3">
+            <input type="text" class="form-control" id="influencer_id" placeholder="Enter User ID" name="influencer_id" value="{{session['user_id']}}" raedonly>
+            <label for="influencer_id">User ID</label>
+
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="influencer_password" placeholder="Enter Password" name="influencer_password" required>
+            <label for="influencer_password">Password</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="new_password" placeholder="Enter Password" name="new_password" required>
+            <label for="new_password">New Password</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="confirm_new_password" placeholder="Enter Password" name="confirm_new_password" required>
+            <label for="confirm_new_password">Confirm New Password</label>
+          </div>
+
+           <div class='text-center m-3'>
+              <input type="submit"  value="Change Password" class="btn btn-dark mt-3 justify-content-center">
+              <a class="btn btn-danger mt-3" href='/influencer/dashboard'>Cancel</a>
+            </div> 
+         </form>
+      </div>
+
+        <!-- Profile Update Tab -->
+      <div id="updateprofile" class="container tab-pane fade"><br>
+              <h3 class='text-center'>Update Profile</h3>
+              <form action="/influencer/updateProfile" method="POST">
+                  <div class="form-floating mb-3 mt-3">
+                    <input type="text" class="form-control" id="influencer_id" placeholder="Enter User ID" value="{{session['user_id']}}" name="influencer_id" >
+                    <label for="influencer_id">Influencer ID</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="category" placeholder="Enter Password" name="category" value="{{influencer.category}}">
+                    <label for="category">Category</label>
+                  </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="niche" placeholder="Password" name="niche" value="{{influencer.niche}}">
+                  <label for="niche">Niche</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="number" class="form-control" id="reach" placeholder="Password" name="reach" value="{{influencer.reach}}">
+                  <label for="reach">Reach</label>
+                </div>
+                  <div class='text-center m-3'>
+                   <input type="submit" value="Update" class="btn btn-dark mt-3 justify-content-center">
+                    <a class="btn btn-danger mt-3" href='/influencer/dashboard'>Cancel</a>
+                    </div> 
+                </form>
+      </div>
+
+
+    </div>
+   </div>
+  </div>
+
+
+
+{% endblock %}

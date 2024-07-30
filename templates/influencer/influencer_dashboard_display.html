@@ -1,0 +1,92 @@
+{% extends '/influencer/influencer_dashboard.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<div>
+  {% if adrequests %}
+  <h2 class='text-secondary text-center mt-3'><u>Notifications Received for Private AdRequests</u></h2>
+  <h6 class='text-center text-danger'>If you accept all terms , please send OK in negotiation box</h6>
+   <table class='table table-responsive'>
+     <thead class='bg-dark text-white'>
+     <tr>
+       <th>Sr</th>
+       <th>Campaign Id</th>
+       <th>Message</th>
+       <th>Requirements</th>
+       <th>Payment Amount</th>
+       <th>Status</th>
+       <th>Negotiation</th>
+        <th colspan=3></th>
+     </tr></thead>
+     {% for adrequest in adrequests %}
+
+     <tr>
+       <td>{{loop.index}}</td>
+       <td>{{ adrequest.campaign_id  }}</td>
+     <td>{{ adrequest.message  }}</td>
+       <td>{{ adrequest.requirements   }}</td>
+       <td>{{ adrequest.payment_amount  }}</td>
+       <td>{{ adrequest.status }}</td>
+       
+       <td>
+         {% if adrequest.status=='PENDING' %}
+         <form action='/influencer/show/{{adrequest.adrequest_id}}' method='POST'>
+            <div class='input-group'>
+            <input type='text' class='form-control font-size-sm' id='negotiation' name='negotiation' placeholder='Enter amount or OK'>
+
+            <button type='submit' class='btn btn-info text-white'>Negotiate</button>
+              <a class="btn btn-success ms-2" href="/influencer/pvtadrequest/accept/{{adrequest.adrequest_id}}">Accept</a>
+              <a class="btn btn-danger ms-2" href="/influencer/pvtadrequest/reject/{{adrequest.adrequest_id}}">Reject</a>
+              </div>
+            </form>
+         
+         {% else %}
+         <h6 class='text-danger'>Request already accepted</h6>
+         {% endif %}
+         
+       </td>
+        
+       
+     </tr>
+     {% endfor %}
+   </table>
+  {% else %}<h1 class='text-center text-danger mt-5'>No Notifications Yet</h1>
+   {% endif %}
+</div>
+
+<div class="modal fade" id="negotiate" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="searchModalLabel">Negotiation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form  action='/influencer/adrequest/negotiation/{{id}}' method='POST'>
+          <div  class="form-floating mb-1">
+              <input type="text" class="form-control" id="negotiate">
+            </div>
+          
+          
+        <div  class="form-floating mb-1">
+          <input type="text" class="form-control" id="negotiation" name='negotiation'>
+          <label for="negotiation" class="form-label text-dark">Negotiate</label></div>
+        </div>
+        </form>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function fetchId(id){
+   
+    const inputbox=document.getElemntById("negotiate");
+    inputbox.value=id;
+     alert('You have selected the adrequest '+id);
+  }
+</script>
+{% endblock %}

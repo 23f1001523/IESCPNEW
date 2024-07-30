@@ -1,0 +1,78 @@
+{% extends '/sponsor/sponsor_dashboard.html' %}
+
+{% block title %} Sponsor Campaign {% endblock %}
+
+{% block content %}
+<div class="mt-1">
+    {% if adrequests %}
+     <h1 class='text-center text-secondary '><u>Ad Requests</u></h1>
+     <table class='table'>
+       <thead class='bg-dark text-white'>
+       <tr>
+         
+         <th>Campaign Id</th>
+         <th>AdRequest Id</th>
+         <th>Message</th>
+         <th>Requirements</th>
+         <th>Payment_Amount</th>
+         <th>Status</th>
+         <th>Influencer Id</th>
+         <th></th>
+       </tr>
+       </thead>
+       
+       <tr>
+         
+         <td>{{ adrequests.campaign_id }}</td>
+       <td>{{ adrequests.adrequest_id }}</td>
+         <td>{{ adrequests.message }}</td>
+         <td>{{ adrequests.requirements }}</td>
+         <td>{{ adrequests.payment_amount }}</td>
+         <td>{{ adrequests.status }}</td>
+         <td>{{ adrequests.influencer_id }}</td>
+         <td>{{adrequests.negotiations | length}}</td>
+         
+       </tr>
+      
+     </table>
+     {% endif %}
+</div>
+
+<div class="mt-1">
+    {% if adrequests %}
+    {% if adrequests.negotiations %}
+    
+     <h1 class='text-center text-secondary '><u>Negotiations</u></h1>
+     <table class='table'>
+       <thead class='bg-dark text-white'>
+         
+       <tr>
+         <th>Negotiation</th>
+         <th>Influencer Id</th>
+         <th>AdRequest Id</th>
+         <th colspan=2></th>
+       </tr>
+       </thead>
+       {% for negotiation in adrequests.negotiations %}
+       <tr>
+         
+         <td>{{negotiation.negotiation}}</td>
+          <td>{{negotiation.influencer_id}}</td>
+         <td>{{negotiation.adrequest_id}}</td>
+         {% if adrequests.status=='PENDING' %}
+        <td><a href="/sponsor/negotiation/accept/{{negotiation.adrequest_id}}" class='btn btn-success'>Accept</a></td>
+         {% endif %}
+         {% if adrequests.status=='PENDING' %}
+         <td><a  href="/sponsor/negotiation/reject/{{negotiation.adrequest_id}}" class='btn btn-danger'>Reject</a></td>{% endif %}
+       </tr>
+       {% endfor %}
+     </table>
+
+  
+     {% endif %}
+  {% endif %}
+</div>
+<div class='text-center'>
+<a type="button" href='/sponsor/campaign/show' class="btn btn-danger text-white">Back</a>
+  </div>
+{% endblock %}

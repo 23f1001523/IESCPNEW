@@ -1,0 +1,110 @@
+{% extends '/sponsor/sponsor_dashboard.html' %}
+
+{% block title %} Sponsor AdRequest {% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center mt-2">
+  <div class="col-md-6 bg-light border border-dark rounded p-2">
+
+      <h3 class='text-center mb-3'>Create Ad Request</h3>
+    <div class='row'>
+      <div class='col ms-9'><h5 class='text-center text-danger'>Total Budget: {{campaign.budget}}</h5></div>    
+      <div class='col ms-3'><h5 class='text-center text-danger mb-3'>Budget Spent: {{used_budget}}</h5></div></div> 
+      <form  action='/sponsor/adrequest/{{campaign.campaign_id}}' method='POST'>
+       
+        <div  class="form-floating mb-3">
+          <input type="text" class="form-control" id="campaign_id" name='campaign_id' value="{{campaign.campaign_id}}" disabled>
+          <label for="campaign_id" class="form-label text-dark" >Campaign Id</label>
+        </div>
+        <div  class="form-floating mb-3">
+          <input type="text" class="form-control" id="name" name='name' value="{{campaign.name}}" disabled>
+          <label for="name" class="form-label text-dark">Campaign Name</label>
+        </div>
+
+        <div  class="form-floating mb-3">
+          <textarea type="text" class="form-control" id="message" name='message' required></textarea>
+          <label for="message" class="form-label text-dark">Message</label>
+        </div>
+        <div  class="form-floating mb-3">
+          <textarea type="text" class="form-control" id="requirements" name='requirements' required></textarea>
+          <label for="requirements" class="form-label text-dark">Requirements</label>
+        </div>
+        <div  class="form-floating mb-3">
+          <input type="number" class="form-control" id="payment_amount" name='payment_amount'>
+          <label for="payment_amount" class="form-label text-dark">Payment Amount</label>
+        </div>
+        {% if campaign. visibility=="Private"%}
+          <div class="input-group">
+              <input type="text" class="form-control" id="influencer_id" placeholder="Enter Ifluencer Id" name="influencer_id" required>
+              <!-- Button trigger modal -->
+
+            <button type="button" class="btn btn-danger p-2" data-bs-toggle="modal" data-bs-target="#searchInfluencerId">
+            Select Influencer
+            </button>
+          </div>
+        {% endif %}
+        <div class='text-center mt-3'>
+        <button type="submit" class="btn btn-dark">Submit</button>
+        <a class="btn btn-danger" href='/sponsor/campaign/show' class="btn btn-danger text-white">Cancel</a></div>
+      </form>
+  </div>
+</div>
+<!-- MODAL -->
+<div class="modal fade" id="searchInfluencerId" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="searchModalLabel">Search Influencer Id</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          {% if influencers %}
+           <table class='table table-responsive'>
+             <thead class='bg-dark text-white'>
+             <tr>
+               <th>Sr</th>
+               <th>Id</th>
+               <th>Name</th>
+               <th>Category</th>
+               <th>Niche</th>
+               <th>Reach</th>
+               <th>Status</th>
+               <th colspan=1></th>
+             </tr>
+             </thead>
+             {% for influencer in influencers %}
+
+             <tr>
+               <td>{{loop.index}}</td>
+               <td>{{ influencer.influencer_id }}</td>
+             <td>{{ influencer.influencer_name }}</td>
+               <td>{{ influencer.category }}</td>
+               <td>{{ influencer.niche }}</td>
+               <td>{{ influencer.reach }}</td>
+               <td>{{influencer.status}}</td>
+               <td><a type="button" onclick='showAlert("{{influencer.influencer_id}}")' class="btn btn-success" data-bs-dismiss="modal">Select</a></td>
+             </tr>
+             {% endfor %}
+           </table>
+           {% endif %}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function showAlert(id){
+    // alert('You have selected the influencer '+id);
+    const influencer_id=document.getElementById('influencer_id')
+    influencer_id.value=id;
+
+
+  }
+</script>
+
+{% endblock %}

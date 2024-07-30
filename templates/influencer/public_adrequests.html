@@ -1,0 +1,53 @@
+{% extends '/influencer/influencer_dashboard.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="mt-1">
+    {% if campaigns %}
+     <h1 class='text-center text-secondary '><u>Public AdRequests</u></h1>
+     <table class='table table-responsive'>
+       <thead class='bg-dark text-white'>
+         <th>AdRequest Id</th>
+         <th>Message</th>
+         <th>Requirements</th>
+        <th>Payment Amount</th>
+         <th>Status</th>
+         <th>Negotiation</th>
+         <th>Edit Negotiation</th>
+       </thead>
+       {% for campaign in campaigns%}
+          {% for adrequest in campaign.adrequests %}
+       <tr>
+          <td>{{loop.index}}</td>
+          <td>{{ adrequest.campaign_id  }}</td>
+        <td>{{ adrequest.message  }}</td>
+          <td>{{ adrequest.requirements   }}</td>
+          <td>{{ adrequest.payment_amount  }}</td>
+          <td>{{ adrequest.status }}</td>
+
+          <td>
+            {% if adrequest.status=='PENDING' %}
+            <form action='/influencer/show/{{adrequest.adrequest_id}}' method='POST'>
+               <div class='input-group'>
+               <input type='text' class='form-control font-size-sm' id='negotiation' name='negotiation' placeholder='Enter amount or OK'>
+
+               <button type='submit' class='btn btn-info text-white'>Negotiate</button>
+               
+                 </div>
+               </form>
+
+            {% else %}
+            <h6 class='text-danger'>Request already accepted</h6>
+            {% endif %}
+
+          </td>
+
+
+        </tr>
+           {% endfor %}
+       {% endfor %}
+   </table>
+   {% endif %}
+</div>
+
+{% endblock %}

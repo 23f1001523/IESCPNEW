@@ -1,0 +1,256 @@
+{% extends '/admin/admin_dashboard.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<div class="row row-cols-4 text-center p-3">
+  <!-- SPONSOR SEARCH -->
+  <div class="col mb-3">
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+       Sponsor Search
+      </div>
+      <div class="card-body">
+         <form action="/admin/sponsor/search" method='POST'>
+        <select class="form-select" aria-label="Default select example" name="sponsor_search_type">
+          <option selected>Select Search Type</option>
+          <option value="name">By Name</option>
+          <option value="industry">By Industry</option>
+          <option value="budget">By Budget(>=Amount)</option>
+          <option value="status">By Status(ACTIVE/INACTIVE)</option>
+        </select>
+        
+        <label for="sponsor_search" class="form-label"></label>
+        <input class="form-control" list="datalistOptions" id="sponsor_search" name="sponsor_search"placeholder="Type to search...">
+            <input type="submit" value="Search"  class="btn btn-dark mt-3">
+           </form>
+      </div>
+      
+    </div>
+    </div>
+    <!-- INFLUENCER SEARCH -->
+  <div class="col mb-3">
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+       Influencer Search
+      </div>
+      <div class="card-body">
+         <form action="/admin/influencer/search" method='POST'>
+        <select class="form-select" aria-label="Default select example" name="influencer_search_type">
+          <option selected>Select Search Type</option>
+          <option value="name">By Name</option>
+          <option value="category">By Category</option>
+          <option value="niche">By Niche</option>
+          <option value="reach">By Reach(>=Number)</option>
+          <option value="status">By Status(ACTIVE/INACTIVE)</option>
+        </select>
+
+        <label for="influencer_search" class="form-label"></label>
+        <input class="form-control" list="datalistOptions" id="influencer_search" name="influencer_search"placeholder="Type to search...">
+            <input type="submit" value="Search"  class="btn btn-dark mt-3">
+           </form>
+      </div>
+     
+    </div>
+  </div>
+    <!-- CAMPAIGN SEARCH -->
+  <div class="col mb-3">
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+       Campaign Search
+      </div>
+      <div class="card-body">
+         <form action="/admin/campaign/search" method='POST'>
+        <select class="form-select" aria-label="Default select example" name="campaign_search_type">
+          <option selected>Select Search Type</option>
+          <option value="name">By Name</option>
+          <option value="budget">By Budget(>=Amount)</option>
+          <option value="visibility">By Visibility</option>
+          <option value="start_date">By Start Date (yyyy-mm-dd)</option>
+          <option value="end_date">By End Date (yyyy-mm-dd)</option>
+          <option value="description">By Description</option>
+          <option value="status">By Status(ACTIVE/INACTIVE)</option>
+          <option value="expiry">By Expiry(Expired/UnExpired)</option>
+        </select>
+
+        <label for="campaign_search" class="form-label"></label>
+        <input class="form-control" list="datalistOptions" id="campaign_search" name="campaign_search"placeholder="Type to search...">
+            <input type="submit" value="Search"  class="btn btn-dark mt-3">
+           </form>
+      </div>
+    </div>
+  </div>
+    <!-- ADREQUEST SEARCH -->
+  <div class="col mb-3">
+    <div class="card">
+      <div class="card-header bg-dark text-white">
+       AdRequest Search
+      </div>
+      <div class="card-body">
+         <form action="/admin/adrequest/search" method='POST'>
+        <select class="form-select" aria-label="Default select example" name="adrequest_search_type">
+          <option selected>Select Search Type</option>
+         
+          <option value="payment_amount">By Payment Amount(>=Amount)</option>
+          <option value="message">By Message</option>
+          <option value="requirements">By Requirements</option>
+          <option value="flaggedstatus">By Flagged Status(ACTIVE/INACTIVE)</option>
+          <option value="status">By Status(PENDING/ACCEPTED/REJECTED)</option>
+          
+        </select>
+
+        <label for="adrequest_search" class="form-label"></label>
+        <input class="form-control" list="datalistOptions" id="adrequest_search" name="adrequest_search"placeholder="Type to search...">
+            <input type="submit" value="Search" class="btn btn-dark mt-3">
+           </form>
+      </div>
+     
+    </div>
+  </div>
+
+  </div>
+
+  <div class="container ">
+    <!-- SPONSOR TABLE -->
+  <div class="mt-1">
+      {% if sponsors %}
+      
+       <h2 class='text-center text-secondary'><u>Sponsors</u></h2>
+       <table class='table'>
+         <thead class='bg-dark text-white'>
+         <tr>
+           <th>Sr</th>
+           <th>Sponsor Id</th>
+           <th>Sponsor Name</th>
+           <th>Budget</th>
+           <th>Industry</th>
+           <th>Password</th>
+           <th>Status</th>
+           <th></th>
+         </tr>
+         </thead>
+         {% for sponsor in sponsors %}
+         <tr>
+           <td>{{loop.index}}</td>
+           <td>{{ sponsor.sponsor_id }}</td>
+         <td>{{ sponsor.sponsor_name }}</td>
+           <td>{{ sponsor.budget }}</td>
+           <td>{{ sponsor.industry }}</td>
+           <td>{{ sponsor.sponsor_password }}</td>
+           <td>{{ sponsor.status }}</td>
+            <td><a href='/admin/sponsor/flag/{{sponsor.sponsor_id}}' class="btn btn-danger">Change Status</a>
+         </tr>
+         {% endfor %}
+       </table>
+       {% endif %}
+  </div>
+    <!-- INFLUENCER TABLE -->
+    <div class="mt-1">
+        {% if influencers %}
+         <h1 class='text-center text-secondary '><u>Influencers</u></h1>
+         <table class='table'>
+           <thead class='bg-dark text-white'>
+           <tr>
+             <th>Sr</th>
+             <th>Influencer Id</th>
+             <th>Influencer Name</th>
+             <th>Category</th>
+             <th>Niche</th>
+             <th>Reach</th>
+             <th>Status</th>
+             <th></th>
+           </tr>
+           </thead>
+           {% for influencer in influencers %}
+           <tr>
+             <td>{{loop.index}}</td>
+             <td>{{ influencer.influencer_id }}</td>
+           <td>{{ influencer.influencer_name }}</td>
+             <td>{{ influencer.category }}</td>
+             <td>{{ influencer.niche }}</td>
+             <td>{{ influencer.reach }}</td>
+             
+             <td>{{ influencer.status }}</td>
+              <td><a href='/admin/influencer/flag/{{influencer.influencer_id}}' class="btn btn-danger">Change Status</a>
+           </tr>
+           {% endfor %}
+         </table>
+         {% endif %}
+    </div>
+
+    <!-- CAMPAIGN TABLE -->
+    <div class="mt-1">
+        {% if campaigns %}
+         <h1 class='text-center text-secondary '><u>Campaigns</u></h1>
+         <table class='table'>
+           <thead class='bg-dark text-white'>
+           <tr>
+             <th>Sr</th>
+             <th>Campaign Id</th>
+             <th>Campaign Name</th>
+             <th>Description</th>
+             <th>Start Date</th>
+             <th>End Date</th>
+             <th>Budget</th>
+             <th>Visibility</th>
+             <th>Goals</th>
+             <th>Status</th>
+             <th></th>
+           </tr>
+           </thead>
+           {% for campaign in campaigns %}
+           <tr>
+             <td>{{loop.index}}</td>
+             <td>{{ campaign.campaign_id }}</td>
+             <td>{{ campaign.name }}</td>
+           <td>{{ campaign.description }}</td>
+             <td>{{ campaign.start_date }}</td>
+             <td>{{ campaign.end_date }}</td>
+             <td>{{ campaign.budget }}</td>
+             <td>{{ campaign.visibility }}</td>
+              <td>{{ campaign.goals }}</td>
+             <td>{{ campaign.status }}</td>
+              <td><a href='/admin/campaign/flag/{{campaign.campaign_id}}' class="btn btn-danger">Change Status</a>
+           </tr>
+           {% endfor %}
+         </table>
+         {% endif %}
+    </div>
+    <!-- ADREQUESTS TABLE -->
+    <div class="mt-1">
+      
+        {% if adrequests %}
+         <h1 class='text-secondary text-center'>Ad Requests</h1>
+         <table class='table'>
+           <thead class='bg-dark text-white '>
+           <tr>
+             <th>Sr</th>
+             <th>Campaign Id</th>
+             <th>AdRequest Id</th>
+             <th>Message</th>
+             <th>Requirements</th>
+             <th>Payment_Amount</th>
+             <th>Status</th>
+             <th>Flagged Status</th>
+            
+           </tr>
+           </thead>
+           {% for adrequest in adrequests %}
+           <tr>
+             <td>{{loop.index}}</td>
+             <td>{{ adrequest.campaign_id }}</td>
+           <td>{{ adrequest.adrequest_id }}</td>
+             <td>{{ adrequest.message }}</td>
+             <td>{{ adrequest.requirements }}</td>
+             <td>{{ adrequest.payment_amount }}</td>
+             <td>{{ adrequest.status }}</td>
+             <td>{{ adrequest.flag_status }}</td>
+         
+           </tr>
+           {% endfor %}
+         </table>
+         {% endif %}
+ 
+    </div>
+    <div class='text-center'>
+     <a type="button" href='/admin/dashboard' class="btn btn-danger text-white mt-3">Back</a>
+      </div>
+{% endblock %}

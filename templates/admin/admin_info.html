@@ -1,0 +1,162 @@
+{% extends '/admin/admin_dashboard.html' %}
+{% block title %} Admin Info {% endblock %}
+{% block content %}
+<div class='text-center'>
+ <a type="button" href='/admin/dashboard' class="btn btn-danger text-white mt-3">Back</a>
+  </div>
+<div class="container ">
+<div class="row justify-content-center mt-3">
+  <div class="col bg-light ">
+  <div class="mt-2 ">
+      {% if sponsors %}
+    
+       <h2 class='text-secondary text-center'><u>Sponsors</u></h2>
+       <table class='table table-responsive table-sm'>
+          <thead class='bg-dark text-white'>
+     
+           <th>Sr</th>
+           <th>Sponsor Id</th>
+           <th>Sponsor Name</th>
+           <th>Budget</th>
+           <th>Industry</th>
+           <th>Status</th>
+           <th></th>
+          </thead>
+         {% for sponsor in sponsors %}
+         <tr>
+           <td>{{loop.index}}</td>
+           <td>{{ sponsor.sponsor_id }}</td>
+         <td>{{ sponsor.sponsor_name }}</td>
+           <td>{{ sponsor.budget }}</td>
+           <td>{{ sponsor.industry }}</td>
+           <td>{{ sponsor.status }}</td>
+           <td><a href='/admin/sponsor/flag/{{sponsor.sponsor_id}}' class="btn btn-danger btn-sm">Change Status</a>
+           </td>
+         </tr>
+         {% endfor %}
+       </table>
+       {% endif %}
+  </div>
+  <div>
+    {% if influencers %}
+       <h2 class='text-secondary text-center'><u>Influencers</u></h2>
+       <table class='table table-responsive table-sm'>
+         <thead class='bg-dark text-white'>
+       
+           <th>Sr</th>
+           <th>Id</th>
+           <th>Name</th>
+           <th>Category</th>
+           <th>Niche</th>
+           <th>Reach</th>
+           <th>Status</th>
+           <th colspan=2></th>
+      
+         </thead>
+         {% for influencer in influencers %}
+
+         <tr>
+           <td>{{loop.index}}</td>
+           <td>{{ influencer.influencer_id }}</td>
+         <td>{{ influencer.influencer_name }}</td>
+           <td>{{ influencer.category }}</td>
+           <td>{{ influencer.niche }}</td>
+           <td>{{ influencer.reach }}</td>
+           <td>{{influencer.status}}</td>
+           <td><a  href='/admin/influencer/flag/{{influencer.influencer_id}}' class="btn btn-danger btn-sm">Change Status</a></td>
+         </tr>
+         {% endfor %}
+       </table>
+       {% endif %}
+
+  </div>
+
+  <div>
+    {% if campaigns %}
+     <h2 class='text-secondary text-center'><u>Campaigns</u></h2>
+     <table class='table table-responsive table-sm'>
+       <thead class='bg-dark text-white'>
+       <tr>
+         <th>Sr</th>
+         <th>Name</th>
+         <th>Description</th>
+         <th>Start Date</th>
+         <th>End Date</th>
+         <th>Budget</th>
+         <th>Visibility</th>
+         <th>Goals</th>
+         <th>Status</th>
+         <th>Sponsor Id</th>
+         <th>Expiry</th>
+         <th></th>
+       </tr>
+       </thead>
+       {% for campaign in campaigns %}
+
+       <tr>
+         <td>{{loop.index}}</td>
+         <td>{{ campaign.name }}</td>
+       <td>{{ campaign.description }}</td>
+         <td>{{ campaign.start_date }}</td>
+         <td>{{ campaign.end_date }}</td>
+         <td>{{ campaign.budget }}</td>
+         <td>{{campaign.visibility}}</td>
+         <td>{{campaign.goals}}</td>
+         <td>{{campaign.status}}</td>
+         <td>{{campaign.sponsor_id}}</td>
+         <td>{{campaign.expiry}}</td>
+         <td>
+           {% if campaign.status=="ACTIVE" or campaign.status=="INACTIVE" %}
+           <a type="button" href='/admin/campaign/flag/{{campaign.campaign_id}}' class="btn btn-danger btn-sm">Change Status</a>
+           {% else %}
+           <h6 class="text-danger">Already Deleted</h6>
+           {% endif %}
+         </td>
+       </tr>
+       {% endfor %}
+     </table>
+     {% endif %}
+  </div>
+
+  <div>
+    {% if adrequests %}
+     <h2 class='text-secondary text-center'><u>Ad Requests</u></h2>
+     <table class='table table-responsive table-sm'>
+       <thead class='bg-dark text-white'>
+    
+         <th>Sr</th>
+         <th>Campaign Id</th>
+         <th>Message</th>
+         <th>Requirements</th>
+         <th>Payment Amount</th>
+         <th>Status</th>
+          <th>Flagged Status</th>
+         <th></th>
+       </thead>
+       {% for adrequest in adrequests %}
+
+       <tr>
+         <td>{{loop.index}}</td>
+         <td>{{ adrequest.campaign_id  }}</td>
+       <td>{{ adrequest.message  }}</td>
+         <td>{{ adrequest.requirements   }}</td>
+         <td>{{ adrequest.payment_amount  }}</td>
+         <td>{{ adrequest.status }}</td>
+         <td>{{ adrequest.flag_status }}</td>
+         <td><a  href='/admin/adrequest/flag/{{adrequest.adrequest_id}}' class="btn btn-danger btn-sm">Change Status</a></td>
+       </tr>
+       {% endfor %}
+     </table>
+     {% endif %}
+  </div>
+
+  </div>
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+  </div>
+
+{% endblock %}

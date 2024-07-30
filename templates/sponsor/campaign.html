@@ -1,0 +1,102 @@
+  {% extends '/sponsor/sponsor_dashboard.html' %}
+  {% block title %}Profile{% endblock %}
+  {% block content %}
+  <div class="container mt-3">
+    <div class="row justify-content-center ">
+      <div class="col-md-6 bg-light text-center">
+            <a type="button" href='/sponsor/campaign' class="btn btn-primary mb-3 p-2">+ Add Campaign</a>
+
+        <a type="button" href='/sponsor/dashboard' class="btn btn-danger mb-3 p-2 text-white">Back</a>
+      </div>
+    </div>
+  <div class="row text-center ">
+    {% if campaigns %}
+    {% for campaign in campaigns %}
+    <div class="col-md-3 mb-2">
+
+      <div class="card">
+        <div class="card-header bg-dark text-white">
+          Campaign: {{campaign.name}}
+        </div>
+        <div class="card-body">
+          <p>{{ campaign.description }}</p>
+          <p>Budget: {{campaign.budget}}</p>
+           <p><u>{{ campaign.start_date }}</u> to <u>{{ campaign.end_date }}</u></p>
+          <p><b>{{campaign.visibility}}</b></p>
+          <p><b>{{campaign.status}}</b></p>
+          {% if campaign.status=="ACTIVE" %}
+          <a type="button" href='/sponsor/delete/campaign/{{campaign.campaign_id}}' class="btn btn-danger text-white btn-sm">Delete Campaign</a>
+          {% endif %}
+        </div>
+        {% if campaign.status=="ACTIVE" %}
+        <div class="card-footer">
+          <a href="/sponsor/campaign/table/{{campaign.campaign_id}}" class="btn btn-dark btn-sm">View</a>
+          <a href="/sponsor/adrequest/{{campaign.campaign_id}}" class="btn btn-dark btn-sm">Add Request</a>
+          <a href="/sponsor/campaign/modify/{{campaign.campaign_id}}" class="btn btn-dark btn-sm">Modify </a>
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <!-- Adrequest under Campaign -->
+    <div class='col-md-9'>
+
+
+       {% if campaign.status=="ACTIVE" %}
+       {% if campaign.adrequests %}
+       <table class='table table-responsive table-sm'>
+         <thead class='bg-dark text-white'>
+           <th>Sr</th>
+           <th> Id</th>
+           <th>Message</th>
+           <th>Requirements</th>
+           <th>Amount</th>
+           <th>Status</th>
+           <th>Flagged Status</th>
+           <th>Influencer Id</th>
+           <th>Negotiation</th>
+           <th></th>
+         </thead>
+         <tbody>
+         {% for adrequest in campaign.adrequests %}
+         <tr>
+           <td>{{loop.index}}</td>
+           <td>{{ adrequest.campaign_id  }}</td>
+           <td>{{ adrequest.message  }}</td>
+           <td>{{ adrequest.requirements   }}</td>
+           <td>{{ adrequest.payment_amount  }}</td>
+           <td>{{ adrequest.status }}</td>
+           <td>{{ adrequest.flag_status }}</td>
+           <td>{{adrequest.influencer_id}}</td>
+          
+           <td>
+            <a href='/sponsor/adrequest/negotiation/{{adrequest.adrequest_id}}' class="btn btn-success text-white btn-sm">Negotiation</a>
+            </td>
+            <td>
+            {% if adrequest.flag_status=="ACTIVE" %}
+              {% if adrequest.status=='PENDING' %}
+            <a  href='/sponsor/adrequest/modify/{{adrequest.adrequest_id}}' class="btn btn-warning btn-sm">Edit</a>
+             <a  href='/sponsor/delete/adrequest/{{adrequest.adrequest_id}}' class="btn btn-danger btn-sm">Delete</a>
+              {% endif %}
+            {% endif %}
+            </td>
+          
+         </tr> 
+         {% endfor %}
+        </tbody>
+         </table>
+
+         {% else %}
+         <h3 class='mt-3'>No Adrequests</h3>
+         <a type="button" href='/sponsor/adrequest/{{campaign.campaign_id}}' class="btn btn-dark">Click here to add a request</a>
+        {% endif %}
+         {% else %}
+        <h3 class="text-danger mt-3">INACTIVE Campaign</h3> 
+        {% endif %}
+
+    </div>
+
+     {% endfor %}
+     {% endif %}
+  {% endblock %}

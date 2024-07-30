@@ -1,0 +1,44 @@
+{% extends '/influencer/influencer_dashboard.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<div class="mt-1">
+    {% if adrequests %}
+     <h1 class='text-center text-secondary '><u>Accepted/Rejected AdRequests</u></h1>
+     <table class='table table-responsive'>
+       <thead class='bg-dark text-white'>
+         <th>Sr</th>
+         <th>Campaign</th>
+         <th>AdRequest Id</th>
+         <th>Message</th>
+         <th>Requirements</th>
+        <th>Payment Amount</th>
+         <th>Status</th>
+         <th>Negotiation</th>
+        
+       </thead>
+       {% for adrequest in adrequests %}
+       <tr>
+          <td>{{loop.index}}</td>
+         <td>{{adrequest.campaign_id}}</td>
+          <td>{{ adrequest.adrequest_id  }}</td>
+        <td>{{ adrequest.message  }}</td>
+          <td>{{ adrequest.requirements   }}</td>
+          <td>{{ adrequest.payment_amount  }}</td>
+          <td>{{ adrequest.status }}</td>
+         <td>
+           {% for negotiation in adrequest.negotiations %}
+              {{negotiation}}
+           {% endfor %}
+           
+         </td>
+        </tr>
+       {% endfor %}
+   </table>
+  {% else %}
+  <h1 class='text-center text-danger mt-5 '><u>No AdRequests</u></h1>
+  {% endif %}
+</div>
+
+
+{% endblock %}

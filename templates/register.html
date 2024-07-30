@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %} Register {% endblock %}
+{% block content %}
+<div class="row justify-content-center" >
+  <div class="col-sm-6 bg-light border border-dark rounded p-5" >
+      <div class="text-center">
+        <h4>Register here</h4>
+      </div>
+      <ul class="nav nav-pills nav-justified mb-3 justify-content-center" role="tablist">
+    
+        <li class="nav-item">
+          <a class="nav-link active" data-bs-toggle="pill" href="#sponsor">Sponsor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="pill" href="#influencer">Influencer</a>
+        </li>
+     
+      </ul>
+    
+    <div class="tab-content" id="myTabContent">
+      
+      <div class="container tab-pane  active" id="sponsor" role="tabpanel" aria-labelledby="profile-tab">
+        <form action='/sponsor/register' method='POST'>
+          <div class="form-floating mb-3">
+            
+            <input type="text" class="form-control" id="sponsor_name" name='sponsor_name' required>
+            <label for="sponsor_name" class="form-label text-dark">Sponsor Name</label>
+          </div>
+          <div class=" form-floating mb-3">
+            
+            <input type="text" class="form-control" id="sponsor_id" 
+              name='sponsor_id' required>
+            <label for="sponsor_id" class="form-label text-dark">Sponsor Id</label>
+          </div>
+        
+          <div class=" form-floating mb-3">
+            <input type="password" class="form-control" id="sponsor_password" name='sponsor_password' required>
+            <label for="sponsor_password" class="form-label text-dark">Password</label>
+          </div>
+          <div class="form-floating mb-3">
+            
+            <input type="text" class="form-control" id="industry" name='industry' required>
+            <label for="industry" class="form-label text-dark">Industry</label>
+
+          </div>
+          <div class="form-floating mb-3">
+            
+            <input type="text" class="form-control" id="budget" name='budget' required>
+            <label for="budget" class="form-label text-dark">Budget</label>
+          </div>
+          <div class="text-center m-3">
+            <button type="submit" class="btn btn-dark">Register</button>
+          </div>
+
+        </form>
+</div>
+
+      
+      <div class="container tab-pane fade" id="influencer" role="tabpanel" aria-labelledby="contact-tab"><form action='/influencer/register' method='POST'>
+          <div class="form-floating mb-3">
+            
+            <input type="text" class="form-control" id="influencer_name" name='influencer_name' required>
+            <label for="influencer_name" class="form-label text-dark">Influecner Name</label>
+          </div>
+          <div class="form-floating mb-3">
+            
+            <input type="text" class="form-control" id="influencer_id" name='influencer_id' required>
+            <label for="influencer_id" class="form-label text-dark">Influencer Id</label>
+          </div>
+        
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="influencer_password" name='influencer_password' required>
+              <label for="influencer_password" class="form-label text-dark">Password</label>
+            </div>
+        
+           <div class="form-floating mb-3">
+            
+            <input type="text" class="form-control" id="category" name='category' required>
+            <label for="category" class="form-label text-dark">Category</label>
+          </div>
+            <div class="form-floating mb-3">
+             
+              <input type="text" class="form-control" id="niche" name='niche' required>
+               <label for="niche" class="form-label text-dark">Niche</label>
+            </div>
+            <div class="form-floating mb-3">
+              
+              <input type="text" class="form-control" id="reach" name='reach' required>
+              <label for="reach" class="form-label text-dark">Reach</label>
+            </div>
+        <div class="text-center m-3">
+          <button type="submit" class="btn btn-dark">Register</button>
+        </div>
+        </form>
+      </div>
+      
+    
+     
+
+    </div>
+    <div class='text-center m-3'>
+      <p>If Already Registered<span class="badge text-bg-dark"><a href='/login'> Login </a></span></p>
+      </div>
+  </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends '/sponsor/sponsor_dashboard.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+<div class='container'>
+  <div class="row text-center ">
+
+    {% if campaigns %}
+    {% for campaign in campaigns %}
+    <div class="col m-3 mb-2">
+
+      <div class="card">
+        <div class="card-header bg-dark text-white">
+          Campain Name: {{campaign.name}}
+        </div>
+        <div class="card-body">
+          <p><b>Campaign Id:</b> {{ campaign.campaign_id }}</p>
+          <p><b>Description:</b> {{ campaign.description }}</p>
+           <p><u>{{ campaign.start_date }}</u> to <u>{{ campaign.end_date }}</u></p>
+           <p><b>Budget:</b> {{campaign.budget}}</p>
+          <p><b>Visibility:</b> {{campaign.visibility}}</p>
+          <p><b>Goals:</b> {{campaign.goals}}</p>
+          <p><b>Status:</b> {{campaign.status}}</p>
+          <p><b>Sponsor Id:</b> {{campaign.sponsor_id}}</p>
+        </div>
+     
+    
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  
+  </div>
+
+<div class='text-center'>
+<td><a type="button" href='/sponsor/campaign/show' class="btn btn-danger text-white text-center ml-5">Back</a></td>
+  </div>
+{% endblock %}    
