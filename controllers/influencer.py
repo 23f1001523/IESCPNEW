@@ -102,25 +102,35 @@ def influencerdashboard():
 
 
 #INFLUENCER ADREQUEST NEGOTIATION FOR PRIVATE REQUESTS ON SIDEBAR AND DASHBOARD(IN NOTIFICATIONS)
-@app.route('/influencer/adrequest/negotiation/<id>', methods=['GET', 'POST'])
+@app.route('/influencer/adrequest/negotiation/<adrequest_id>', methods=['GET', 'POST'])
 @login_required_influencer
-def negotiation():
+def negotiation(adrequest_id):
   if request.method == 'POST':
-    try:
-      adrequest_id = request.form.get('adrequest_id')
-      negotiation = request.form.get('negotiation')
-      adrequest = AdRequest.query.filter_by(adrequest_id=adrequest_id).first()
-      adrequest.negotiations = negotiation
+    # try:
+    influencer_id=session['user_id']
+    negotiation = request.form.get('negotiation')
+    # adrequest = AdRequest.query.filter_by(adrequest_id=adrequest_id).first()
+    negotiations=Negotiation.query.filter_by(influencer_id=influencer_id,adrequest_id=adrequest_id).first()
+    if negotiations:
+      negotiations.negotiation=negotiation
       db.session.commit()
-    except:
-      flash(fatalerror)
+      flash("Successfully updated")
+      return redirect(url_for('influencerdashboard'))
+    else:
+      newNegotiation=Negotiation(influencer_id=influencer_id,adrequest_id=adrequest_id,negotiation=negotiation) 
+      db.session.add(newNegotiation)
+      db.session.commit()
+      flash("Successfully updated")
+      return redirect(url_for('influencerdashboard'))
+    # except:
+      # flash(fatalerror)
+  return redirect(url_for('influencerdashboard'))
 
 
-
-#PUBLIC ADREQUEST FIND BY CAMPAIGN NAME ON INFLUENCER FIND
-@app.route('/influencer/show/<id>', methods=['GET', 'POST'])
-@login_required_influencer
-def show(id):
+# #PUBLIC ADREQUEST FIND BY CAMPAIGN NAME ON INFLUENCER FIND
+# @app.route('/influencer/show/<id>', methods=['GET', 'POST'])
+# @login_required_influencer
+# def show(id):
   if request.method == 'POST':
     try:
       negotiation = request.form.get('negotiation')

@@ -16,7 +16,7 @@
        <th>Payment Amount</th>
        <th>Status</th>
        <th>Negotiation</th>
-        <th colspan=3></th>
+       <th colspan=3>Comments</th>
      </tr></thead>
      {% for adrequest in adrequests %}
 
@@ -27,10 +27,18 @@
        <td>{{ adrequest.requirements   }}</td>
        <td>{{ adrequest.payment_amount  }}</td>
        <td>{{ adrequest.status }}</td>
+       <td>
+        {% for negotiation in adrequest.negotiations %}
+          {% if negotiation.influencer_id==session['user_id'] %}
+           {{negotiation.negotiation}}
+          {% endif %}
+        {% endfor %}
+        
+      </td>
        
        <td>
          {% if adrequest.status=='PENDING' %}
-         <form action='/influencer/show/{{adrequest.adrequest_id}}' method='POST'>
+         <form action='/influencer/adrequest/negotiation/{{adrequest.adrequest_id}}' method='POST'>
             <div class='input-group'>
             <input type='text' class='form-control font-size-sm' id='negotiation' name='negotiation' placeholder='Enter amount or OK'>
 
