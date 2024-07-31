@@ -117,6 +117,38 @@ def negotiation():
 
 
 
+#PUBLIC ADREQUEST FIND BY CAMPAIGN NAME ON INFLUENCER FIND
+@app.route('/influencer/show/<id>', methods=['GET', 'POST'])
+@login_required_influencer
+def show(id):
+  if request.method == 'POST':
+    try:
+      negotiation = request.form.get('negotiation')
+      influencer_id = session['user_id']
+      adrequest_id = id
+      negotiations = Negotiation.query.filter_by(
+          influencer_id=influencer_id, adrequest_id=adrequest_id).first()
+      if negotiations:
+        negotiations.negotiation = negotiation
+        db.session.commit()
+        flash('Successfully updated')
+        return redirect(url_for('public_adrequests_status'))
+      else:
+
+        negotiations = Negotiation(negotiation=negotiation,
+                                  influencer_id=influencer_id,
+                                  adrequest_id=adrequest_id)
+
+        db.session.add(negotiations)
+        db.session.commit()
+        flash("successfully entered in database")
+    except:
+      flash(fatalerror)
+  return redirect(url_for('influencerdashboard'))
+
+
+
+
 #INFLUENCER PRIVATE ADREQUEST ACCEPT OPTION ON SIDEBAR OF INFLUENCER DASHBOARD(IN NOTIFICATIONS)
 @app.route('/influencer/pvtadrequest/accept/<int:id>')
 @login_required_influencer
@@ -176,9 +208,9 @@ def accepted_adrequests_show():
     myadrqeuests = AdRequest.query.filter(
         AdRequest.influencer_id == influencer_id, AdRequest.status
         != "PENDING").all()
-
+    negotiations=Negotiation.query.filter_by(influencer_id=influencer_id)
     return render_template('/influencer/influencer_adrequest_status.html',
-                          adrequests=myadrqeuests)
+                          adrequests=myadrqeuests,negotiations=negotiations)
   except:
     flash(fatalerror)
 
